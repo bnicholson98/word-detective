@@ -14,7 +14,7 @@ class PlayerRole(Enum):
 class Player:
     """Represents a player in the game.
     
-    Attributes:
+    Args:
         name: The player's display name
         role: Whether the player is a Chief or Detective
     """
@@ -22,17 +22,33 @@ class Player:
     role: PlayerRole
     
     def is_chief(self) -> bool:
-        """Check if this player is a Chief."""
+        """Check if this player is a Chief.
+        
+        Returns:
+            True if player role is CHIEF
+        """
         return self.role == PlayerRole.CHIEF
     
     def is_detective(self) -> bool:
-        """Check if this player is a Detective."""
+        """Check if this player is a Detective.
+        
+        Returns:
+            True if player role is DETECTIVE
+        """
         return self.role == PlayerRole.DETECTIVE
     
     def can_give_clues(self) -> bool:
-        """Check if this player can give clues to their team."""
+        """Check if this player can give clues to their team.
+        
+        Returns:
+            True if player can give clues
+        """
         return self.is_chief()
     
     def can_make_guesses(self) -> bool:
-        """Check if this player can make guesses."""
+        """Check if this player can make guesses.
+        
+        Returns:
+            True if player can make guesses
+        """
         return self.is_detective()

@@ -27,7 +27,7 @@ class TurnType(Enum):
 class GameState:
     """Represents the complete state of a Word Detective game.
     
-    Attributes:
+    Args:
         board: 5x5 grid of Card objects
         red_team: The red team
         blue_team: The blue team
@@ -51,13 +51,21 @@ class GameState:
     starting_team_color: CardColor = CardColor.RED
     
     def get_current_team(self) -> Team:
-        """Get the team whose turn it currently is."""
+        """Get the team whose turn it currently is.
+        
+        Returns:
+            The active team
+        """
         if self.current_team_color == CardColor.RED:
             return self.red_team
         return self.blue_team
     
     def get_opposing_team(self) -> Team:
-        """Get the team that is not currently active."""
+        """Get the team that is not currently active.
+        
+        Returns:
+            The non-active team
+        """
         if self.current_team_color == CardColor.RED:
             return self.blue_team
         return self.red_team
@@ -70,13 +78,28 @@ class GameState:
         self.current_clue = None
     
     def get_card_at_position(self, row: int, col: int) -> Card:
-        """Get the card at the specified board position."""
+        """Get the card at the specified board position.
+        
+        Args:
+            row: Board row (0-4)
+            col: Board column (0-4)
+            
+        Returns:
+            Card at the position
+            
+        Raises:
+            ValueError: If position is out of bounds
+        """
         if not (0 <= row < 5 and 0 <= col < 5):
             raise ValueError("Position must be within 5x5 board bounds")
         return self.board[row][col]
     
     def get_all_cards(self) -> List[Card]:
-        """Get all cards on the board as a flat list."""
+        """Get all cards on the board as a flat list.
+        
+        Returns:
+            List of all cards on board
+        """
         cards = []
         for row in self.board:
             for card in row:
@@ -85,21 +108,43 @@ class GameState:
         return cards
     
     def get_unrevealed_cards(self) -> List[Card]:
-        """Get all cards that haven't been revealed yet."""
+        """Get all cards that haven't been revealed yet.
+        
+        Returns:
+            List of unrevealed cards
+        """
         return [card for card in self.get_all_cards() if not card.revealed]
     
     def get_team_cards(self, team_color: CardColor) -> List[Card]:
-        """Get all cards belonging to the specified team."""
+        """Get all cards belonging to the specified team.
+        
+        Args:
+            team_color: Color of team to get cards for
+            
+        Returns:
+            List of team's cards
+        """
         return [card for card in self.get_all_cards() 
                 if card.color == team_color]
     
     def get_unrevealed_team_cards(self, team_color: CardColor) -> List[Card]:
-        """Get unrevealed cards belonging to the specified team."""
+        """Get unrevealed cards belonging to the specified team.
+        
+        Args:
+            team_color: Color of team to get cards for
+            
+        Returns:
+            List of team's unrevealed cards
+        """
         return [card for card in self.get_team_cards(team_color) 
                 if not card.revealed]
     
     def is_setup_complete(self) -> bool:
-        """Check if game setup is complete and ready to play."""
+        """Check if game setup is complete and ready to play.
+        
+        Returns:
+            True if setup is complete
+        """
         return (self.red_team is not None and 
                 self.blue_team is not None and
                 self.red_team.is_complete_team() and
@@ -107,21 +152,33 @@ class GameState:
                 any(any(card is not None for card in row) for row in self.board))
     
     def start_game(self) -> None:
-        """Transition from setup to active gameplay."""
+        """Transition from setup to active gameplay.
+        
+        Raises:
+            ValueError: If setup is not complete
+        """
         if not self.is_setup_complete():
             raise ValueError("Cannot start game - setup incomplete")
         self.phase = GamePhase.CLUE_GIVING
         self.turn_type = TurnType.CHIEF_CLUE
     
     def end_game(self, winner: Team) -> None:
-        """End the game with the specified winner."""
+        """End the game with the specified winner.
+        
+        Args:
+            winner: Team that won the game
+        """
         self.game_over = True
         self.winner = winner
         self.phase = GamePhase.GAME_OVER
         self.current_clue = None
     
     def check_win_conditions(self) -> Optional[Team]:
-        """Check if any team has won and return the winner."""
+        """Check if any team has won and return the winner.
+        
+        Returns:
+            Winning team or None if no winner yet
+        """
         if self.red_team and self.red_team.has_won():
             return self.red_team
         if self.blue_team and self.blue_team.has_won():

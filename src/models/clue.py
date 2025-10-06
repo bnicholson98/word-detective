@@ -8,7 +8,7 @@ from .card import CardColor
 class Clue:
     """Represents a clue given by a Chief to their Detective(s).
     
-    Attributes:
+    Args:
         word: The one-word clue
         number: How many words the clue relates to
         team_color: Which team gave this clue
@@ -20,7 +20,11 @@ class Clue:
     guesses_remaining: int = 0
     
     def __post_init__(self):
-        """Initialize guesses remaining based on clue number."""
+        """Initialize guesses remaining based on clue number.
+        
+        Raises:
+            ValueError: If number is less than 1, word is empty, or team color invalid
+        """
         if self.guesses_remaining == 0:
             self.guesses_remaining = self.number + 1
         
@@ -34,21 +38,37 @@ class Clue:
             raise ValueError("Clue team color must be RED or BLUE")
     
     def use_guess(self) -> int:
-        """Use one guess and return remaining guesses."""
+        """Use one guess and return remaining guesses.
+        
+        Returns:
+            Number of guesses remaining
+        """
         if self.guesses_remaining > 0:
             self.guesses_remaining -= 1
         return self.guesses_remaining
     
     def has_guesses_left(self) -> bool:
-        """Check if there are guesses remaining for this clue."""
+        """Check if there are guesses remaining for this clue.
+        
+        Returns:
+            True if guesses remain
+        """
         return self.guesses_remaining > 0
     
     def max_guesses_allowed(self) -> int:
-        """Get the maximum number of guesses allowed for this clue."""
+        """Get the maximum number of guesses allowed for this clue.
+        
+        Returns:
+            Maximum guesses allowed (number + 1)
+        """
         return self.number + 1
     
     def is_valid_word(self) -> bool:
-        """Check if the clue word meets basic validity requirements."""
+        """Check if the clue word meets basic validity requirements.
+        
+        Returns:
+            True if word is valid format
+        """
         if not self.word or not self.word.strip():
             return False
         

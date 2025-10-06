@@ -9,12 +9,25 @@ class WordLoader:
     """Handles loading and managing words from the word list file."""
     
     def __init__(self, word_file_path: str = "word_list.txt"):
-        """Initialize with path to word list file."""
+        """Initialize with path to word list file.
+        
+        Args:
+            word_file_path: Path to the word list file
+        """
         self.word_file_path = Path(word_file_path)
         self._word_cache: List[str] = []
     
     def load_words(self) -> List[str]:
-        """Load words from the word list file."""
+        """Load words from the word list file.
+        
+        Returns:
+            List of valid words from file
+            
+        Raises:
+            FileNotFoundError: If word file doesn't exist
+            ValueError: If insufficient valid words found
+            IOError: If file cannot be read
+        """
         if not self.word_file_path.exists():
             raise FileNotFoundError(f"Word list file not found: {self.word_file_path}")
         
@@ -36,7 +49,17 @@ class WordLoader:
             raise IOError(f"Error reading word list file: {e}")
     
     def get_random_words(self, count: int) -> List[str]:
-        """Get a random selection of words from the loaded word list."""
+        """Get a random selection of words from the loaded word list.
+        
+        Args:
+            count: Number of words to select
+            
+        Returns:
+            List of randomly selected words
+            
+        Raises:
+            ValueError: If count exceeds available words
+        """
         if not self._word_cache:
             self.load_words()
         
@@ -46,24 +69,46 @@ class WordLoader:
         return random.sample(self._word_cache, count)
     
     def get_game_words(self) -> List[str]:
-        """Get exactly 25 random words for a game board."""
+        """Get exactly 25 random words for a game board.
+        
+        Returns:
+            List of 25 random words
+        """
         return self.get_random_words(25)
     
     def word_exists(self, word: str) -> bool:
-        """Check if a word exists in the loaded word list."""
+        """Check if a word exists in the loaded word list.
+        
+        Args:
+            word: Word to check for existence
+            
+        Returns:
+            True if word exists in list
+        """
         if not self._word_cache:
             self.load_words()
         return word.lower() in [w.lower() for w in self._word_cache]
     
     def get_word_count(self) -> int:
-        """Get the total number of loaded words."""
+        """Get the total number of loaded words.
+        
+        Returns:
+            Number of valid words loaded
+        """
         if not self._word_cache:
             self.load_words()
         return len(self._word_cache)
     
     @staticmethod
     def _is_valid_word(word: str) -> bool:
-        """Check if a word meets validity requirements."""
+        """Check if a word meets validity requirements.
+        
+        Args:
+            word: Word to validate
+            
+        Returns:
+            True if word meets requirements
+        """
         if not word or not word.strip():
             return False
         
@@ -81,7 +126,11 @@ class WordLoader:
         return True
     
     def validate_word_list_file(self) -> dict:
-        """Validate the word list file and return statistics."""
+        """Validate the word list file and return statistics.
+        
+        Returns:
+            Dict with validation results and statistics
+        """
         if not self.word_file_path.exists():
             return {
                 "valid": False,
