@@ -101,6 +101,11 @@ class GameInterface:
                 self._handle_chief_turn(current_team)
             else:
                 self._handle_detective_turn(current_team)
+            
+            # Check for winner after each turn
+            winner = self.controller.rules.check_game_end_conditions(self.controller.game_state)
+            if winner:
+                self.controller.game_state.end_game(winner)
         
         self._show_game_over()
     

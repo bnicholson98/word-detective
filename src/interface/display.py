@@ -26,7 +26,8 @@ class GameDisplay:
     
     def clear_screen(self) -> None:
         """Clear the console screen."""
-        self.console.clear()
+        import os
+        os.system('cls' if os.name == 'nt' else 'clear')
     
     def show_title(self) -> None:
         """Display game title."""
