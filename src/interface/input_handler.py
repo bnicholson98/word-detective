@@ -12,41 +12,9 @@ class InputHandler:
         """Initialize input handler."""
         self.console = Console()
     
-    def get_player_name(self, role: str, team: str) -> str:
-        """Get player name from user.
-        
-        Args:
-            role: Player role (Chief/Detective)
-            team: Team color
-            
-        Returns:
-            Player name
-        """
-        prompt_text = f"Enter {team} team {role} name"
-        return Prompt.ask(prompt_text).strip()
+
     
-    def get_team_size(self, team: str) -> int:
-        """Get number of detectives for a team.
-        
-        Args:
-            team: Team color
-            
-        Returns:
-            Number of detectives
-        """
-        while True:
-            try:
-                size = Prompt.ask(f"How many detectives for {team} team", default="1")
-                num = int(size)
-                if num < 1:
-                    self.console.print("Must have at least 1 detective", style="red")
-                    continue
-                if num > 10:
-                    self.console.print("Maximum 10 detectives per team", style="red")
-                    continue
-                return num
-            except ValueError:
-                self.console.print("Please enter a valid number", style="red")
+
     
     def get_starting_team(self) -> Optional[str]:
         """Get which team should start.

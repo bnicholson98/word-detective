@@ -28,11 +28,6 @@ class TestGameInterface:
     def test_setup_game_success(self, mock_display_class, mock_input_class):
         """Test successful game setup."""
         mock_input = MagicMock()
-        mock_input.get_player_name.side_effect = [
-            "Red Chief", "Red Detective",
-            "Blue Chief", "Blue Detective"
-        ]
-        mock_input.get_team_size.return_value = 1
         mock_input.get_starting_team.return_value = "red"
         mock_input_class.return_value = mock_input
         
@@ -53,11 +48,6 @@ class TestGameInterface:
     def test_setup_game_team_setup_failure(self, mock_display_class, mock_input_class):
         """Test game setup with team setup failure."""
         mock_input = MagicMock()
-        mock_input.get_player_name.side_effect = [
-            "Red Chief", "Red Detective",
-            "Blue Chief", "Blue Detective"
-        ]
-        mock_input.get_team_size.return_value = 1
         mock_input_class.return_value = mock_input
         
         mock_display = MagicMock()
@@ -87,25 +77,7 @@ class TestGameInterface:
         except Exception as e:
             pytest.fail(f"show_rules raised exception: {e}")
     
-    def test_setup_team_valid(self):
-        """Test setting up a valid team."""
-        self.interface.input_handler.get_player_name = MagicMock(side_effect=[
-            "Chief Name", "Detective Name"
-        ])
-        self.interface.input_handler.get_team_size = MagicMock(return_value=1)
-        
-        players = self.interface._setup_team("Red")
-        
-        assert len(players) == 2
-        assert players[0] == ("Chief Name", "chief")
-        assert players[1] == ("Detective Name", "detective")
-    
-    def test_setup_team_empty_name(self):
-        """Test setting up team with empty name."""
-        self.interface.input_handler.get_player_name = MagicMock(return_value="")
-        
-        players = self.interface._setup_team("Blue")
-        assert players == []
+
     
     def test_handle_chief_turn(self):
         """Test handling chief turn."""

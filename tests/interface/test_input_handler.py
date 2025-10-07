@@ -17,31 +17,9 @@ class TestInputHandler:
         handler = InputHandler()
         assert handler.console is not None
     
-    @patch('rich.prompt.Prompt.ask')
-    def test_get_player_name(self, mock_ask):
-        """Test getting player name."""
-        mock_ask.return_value = "TestPlayer"
-        
-        name = self.handler.get_player_name("Chief", "Red")
-        assert name == "TestPlayer"
-        mock_ask.assert_called_once()
+
     
-    @patch('rich.prompt.Prompt.ask')
-    def test_get_team_size_valid(self, mock_ask):
-        """Test getting valid team size."""
-        mock_ask.return_value = "2"
-        
-        size = self.handler.get_team_size("Red")
-        assert size == 2
-    
-    @patch('rich.prompt.Prompt.ask')
-    def test_get_team_size_invalid_then_valid(self, mock_ask):
-        """Test getting team size with invalid then valid input."""
-        mock_ask.side_effect = ["0", "2"]
-        
-        size = self.handler.get_team_size("Blue")
-        assert size == 2
-        assert mock_ask.call_count == 2
+
     
     @patch('rich.prompt.Prompt.ask')
     def test_get_starting_team_red(self, mock_ask):

@@ -29,15 +29,8 @@ class GameInterface:
         self.display.clear_screen()
         self.display.show_title()
         
-        self.display.show_message("=== Team Setup ===\n", style="bold cyan")
-        
-        red_players = self._setup_team("Red")
-        if not red_players:
-            return False
-        
-        blue_players = self._setup_team("Blue")
-        if not blue_players:
-            return False
+        red_players = [("Red Chief", "chief"), ("Red Detective", "detective")]
+        blue_players = [("Blue Chief", "chief"), ("Blue Detective", "detective")]
         
         success, error = self.controller.setup_teams(red_players, blue_players)
         if not success:
@@ -55,32 +48,7 @@ class GameInterface:
         
         return True
     
-    def _setup_team(self, team_color: str) -> list:
-        """Set up a single team.
-        
-        Args:
-            team_color: Team color name
-            
-        Returns:
-            List of (name, role) tuples
-        """
-        self.display.show_message(f"\n{team_color} Team Setup", style=f"bold {team_color.lower()}")
-        
-        chief_name = self.input_handler.get_player_name("Chief", team_color)
-        if not chief_name:
-            return []
-        
-        players = [(chief_name, "chief")]
-        
-        num_detectives = self.input_handler.get_team_size(team_color)
-        
-        for i in range(num_detectives):
-            detective_name = self.input_handler.get_player_name(f"Detective {i+1}", team_color)
-            if not detective_name:
-                return []
-            players.append((detective_name, "detective"))
-        
-        return players
+
     
     def run_game_loop(self) -> None:
         """Main game loop."""
@@ -102,7 +70,6 @@ class GameInterface:
             else:
                 self._handle_detective_turn(current_team)
             
-            # Check for winner after each turn
             winner = self.controller.rules.check_game_end_conditions(self.controller.game_state)
             if winner:
                 self.controller.game_state.end_game(winner)

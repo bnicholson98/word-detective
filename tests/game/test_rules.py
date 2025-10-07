@@ -42,9 +42,8 @@ class TestGameRules:
             cards.append(card)
             game_state.board[0][i] = card
         
-        # Fix the test data issue
         if len(words) > 2:
-            words[1] = "REDWORD"  # Make sure we have different colored words
+            words[1] = "REDWORD"
             game_state.board[0][1] = Card(word="REDWORD", color=CardColor.RED, position=(0, 1))
         if len(words) > 3:
             words[2] = "BLUEWORD"

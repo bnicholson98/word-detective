@@ -125,20 +125,8 @@ class GameDisplay:
         table.add_column("Red Team", style="red", justify="left")
         table.add_column("Blue Team", style="blue", justify="left")
         
-        max_players = max(len(red_team["players"]), len(blue_team["players"]))
-        
-        for i in range(max_players):
-            red_player = ""
-            if i < len(red_team["players"]):
-                p = red_team["players"][i]
-                red_player = f"{p['name']} ({p['role'].title()})"
-            
-            blue_player = ""
-            if i < len(blue_team["players"]):
-                p = blue_team["players"][i]
-                blue_player = f"{p['name']} ({p['role'].title()})"
-            
-            table.add_row(red_player, blue_player)
+        table.add_row("Chief", "Chief")
+        table.add_row("Detective", "Detective")
         
         self.console.print(Panel(table, title="Teams", border_style="cyan"))
         self.console.print()
