@@ -112,6 +112,13 @@ class GameInterface:
         """
         self.display.show_message(f"\n{team_color.upper()} CHIEF's Turn", style=f"bold {team_color}")
         
+        self.display.show_message("\n⚠️  WARNING: The following key card shows ALL colors!", style="bold yellow")
+        self.display.show_message("⚠️  Only the CHIEF should see this screen!", style="bold yellow")
+        self.input_handler.wait_for_enter()
+        
+        self.display.clear_screen()
+        self.display.show_title()
+        
         key_card = self.controller.get_key_card()
         self.display.show_key_card(key_card)
         
@@ -123,6 +130,8 @@ class GameInterface:
             
             success, error = self.controller.give_clue(clue_word, number)
             if success:
+                self.display.clear_screen()
+                self.display.show_title()
                 self.display.show_success(f"Clue given: {clue_word.upper()} - {number}")
                 self.input_handler.wait_for_enter()
                 break
@@ -153,6 +162,8 @@ class GameInterface:
         should_pass = self.input_handler.confirm_action("Make a guess?")
         if not should_pass:
             self.controller.end_turn()
+            self.display.clear_screen()
+            self.display.show_title()
             self.display.show_message("Turn passed.", style="yellow")
             self.input_handler.wait_for_enter()
             return
@@ -161,12 +172,16 @@ class GameInterface:
         
         success, error, result = self.controller.make_guess(guess)
         if success:
+            self.display.clear_screen()
+            self.display.show_title()
             self.display.show_guess_result(result)
             self.input_handler.wait_for_enter()
             
             if result.get("winner"):
                 return
         else:
+            self.display.clear_screen()
+            self.display.show_title()
             self.display.show_error(error)
             self.input_handler.wait_for_enter()
     

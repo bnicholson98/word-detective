@@ -1,8 +1,8 @@
 """Main entry point for Word Detective game."""
 
 import sys
-from game.game_controller import GameController
-from interface.game_interface import GameInterface
+from .game.game_controller import GameController
+from .interface.game_interface import GameInterface
 
 
 def main():

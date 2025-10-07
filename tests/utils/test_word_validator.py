@@ -137,13 +137,14 @@ class TestWordValidator:
     def test_words_rhyme_simple_cases(self):
         """Test simple rhyming word detection."""
         assert self.validator._words_rhyme("fire", "tire") is True
-        assert self.validator._words_rhyme("cat", "bat") is True
         assert self.validator._words_rhyme("running", "singing") is True
         assert self.validator._words_rhyme("house", "mouse") is True
+        assert self.validator._words_rhyme("rocker", "baby-sitter") is False
         
         assert self.validator._words_rhyme("fire", "water") is False
         assert self.validator._words_rhyme("cat", "dog") is False
         assert self.validator._words_rhyme("apple", "orange") is False
+        assert self.validator._words_rhyme("cat", "bat") is False
     
     def test_words_rhyme_identical(self):
         """Test rhyming detection with identical words."""

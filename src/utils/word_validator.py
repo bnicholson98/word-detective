@@ -125,12 +125,7 @@ class WordValidator:
         if word1 == word2:
             return True
         
-        for pattern in self._simple_rhyme_patterns:
-            if (word1.endswith(pattern) and word2.endswith(pattern) and 
-                len(pattern) >= 2):
-                return True
-        
-        if word1[-2:] == word2[-2:] and len(word1) >= 3 and len(word2) >= 3:
+        if word1[-3:] == word2[-3:] and len(word1) >= 4 and len(word2) >= 4:
             return True
         
         return False
