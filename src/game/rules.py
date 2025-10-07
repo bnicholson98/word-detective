@@ -130,11 +130,16 @@ class GameRules:
             opposing_team = game_state.get_opposing_team()
             return revealed_color, False, opposing_team
         
+        if revealed_color == CardColor.RED:
+            game_state.red_team.word_found()
+            if game_state.red_team.has_won():
+                return revealed_color, False, game_state.red_team
+        elif revealed_color == CardColor.BLUE:
+            game_state.blue_team.word_found()
+            if game_state.blue_team.has_won():
+                return revealed_color, False, game_state.blue_team
+        
         if revealed_color == current_team_color:
-            current_team.word_found()
-            if current_team.has_won():
-                return revealed_color, False, current_team
-            
             if game_state.current_clue.has_guesses_left():
                 return revealed_color, True, None
             else:
@@ -242,6 +247,6 @@ class GameRules:
         if not blue_valid:
             return False, f"Blue team: {blue_error}"
         
-        # Board doesn't need to be set up at this point, it gets created during start_game
+
         
         return True, ""
