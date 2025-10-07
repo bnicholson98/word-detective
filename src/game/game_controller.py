@@ -279,3 +279,4 @@ class GameController:
         """Reset game to initial state."""
         self.game_state = GameState()
         self.board = GameBoard(self.word_loader)
+        self.rules = GameRules()

@@ -142,11 +142,22 @@ class TestGameInterface:
             pytest.fail(f"_handle_detective_turn with guess raised exception: {e}")
     
     def test_show_game_over(self):
-        """Test showing game over screen."""
-        self.controller.get_board_state.return_value = {
-            "board": [[None for _ in range(5)] for _ in range(5)],
-            "winner": "red"
-        }
+        """Test showing game over screen."""        
+        mock_winner = MagicMock()
+        mock_winner.color.value = "red"
+        mock_game_state = MagicMock()
+        mock_game_state.winner = mock_winner
+        
+        key_card = []
+        for i in range(25):
+            key_card.append({
+                "word": f"WORD{i}",
+                "color": "red",
+                "revealed": False,
+                "position": (i // 5, i % 5)
+            })
+        self.controller.get_key_card.return_value = key_card
+        self.controller.game_state = mock_game_state
         self.controller.get_team_info.return_value = {
             "red_team": {"players": [], "words_remaining": 0, "total_words": 9},
             "blue_team": {"players": [], "words_remaining": 5, "total_words": 8}

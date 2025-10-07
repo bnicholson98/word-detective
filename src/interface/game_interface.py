@@ -162,10 +162,11 @@ class GameInterface:
         self.display.clear_screen()
         self.display.show_title()
         
-        board_state = self.controller.get_board_state()
-        self.display.show_board(board_state["board"], show_colors=True)
+        key_card = self.controller.get_key_card()
+        self.display.show_message("\n🎯 FINAL BOARD - All Cards Revealed:", style="bold yellow")
+        self.display.show_key_card(key_card)
         
-        winner_color = board_state.get("winner")
+        winner_color = self.controller.game_state.winner.color.value if self.controller.game_state.winner else None
         if winner_color:
             self.display.show_winner(winner_color)
         

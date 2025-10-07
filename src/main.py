@@ -14,6 +14,7 @@ def main():
         choice = interface.show_main_menu()
         
         if choice == 1:
+            interface.controller.reset_game()
             if interface.setup_game():
                 interface.run_game_loop()
                 interface.input_handler.wait_for_enter()
